@@ -1,17 +1,29 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {SearchBar} from "./SearchBar";
 import {Pages} from "./Pages";
-import {FilmList} from "./FilmList";
+import {CharactersList} from "./CharactersList";
+import {useDispatch} from "react-redux";
 
-function App() {
-  return (
-    <div className="App">
-        <SearchBar/>
-        <Pages/>
-        <FilmList/>
-    </div>
-  );
-}
+
+const App = React.memo( function () {
+    const dispatch = useDispatch()
+
+    const searchCharacters = useCallback(function (name: string) {
+        const action = searchCharacters(name)
+        dispatch(action)
+    }, [dispatch])
+
+
+    return (
+        <div className="App">
+            <SearchBar
+                searchCharacters={searchCharacters}
+            />
+            <Pages/>
+            <CharactersList/>
+        </div>
+    );
+})
 
 export default App;
