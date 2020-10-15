@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/search_list.iml" filepath="$PROJECT_DIR$/.idea/search_list.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/kinopoisk_search_list.iml" filepath="$PROJECT_DIR$/.idea/kinopoisk_search_list.iml" />
     </modules>
   </component>
 </project>
