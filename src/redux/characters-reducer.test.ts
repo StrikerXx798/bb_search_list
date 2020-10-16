@@ -1,4 +1,10 @@
-import {CharactersListDomainType, getCharacters, charactersReducer, searchCharacters} from "./characters-reducer";
+import {
+    CharactersListDomainType,
+    getCharacters,
+    charactersReducer,
+    searchCharacters,
+    changeCharactersFavorite, changeFavoriteFilter
+} from "./characters-reducer";
 
 let startState: Array<CharactersListDomainType> = []
 
@@ -27,7 +33,7 @@ beforeEach(() => {
             "portrayed":"Aaron Paul",
             "category":"Breaking Bad",
             "better_call_saul_appearance":[1,2,3,4],
-            favoriteList: false
+            favoriteList: true
         },
         {
             "char_id":3,
@@ -41,7 +47,7 @@ beforeEach(() => {
             "portrayed":"Anna Gunn",
             "category":"Breaking Bad",
             "better_call_saul_appearance":[2,3,4],
-            favoriteList: false
+            favoriteList: true
         }
     ]
 })
@@ -62,4 +68,22 @@ test('Characters should be search', () => {
     const endState = charactersReducer(startState, action)
 
     expect(endState.length).toBe(1)
+})
+
+test('Characters should be add in favorite list', () => {
+
+    const action = changeCharactersFavorite(1, true)
+
+    const endState = charactersReducer(startState, action)
+
+    expect(endState[0].favoriteList).toBeTruthy()
+})
+
+test('Favorite list should be fetch', () => {
+
+    const action = changeFavoriteFilter(true)
+
+    const endState = charactersReducer(startState, action)
+
+    expect(endState.length).toBe(2)
 })

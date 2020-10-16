@@ -1,15 +1,22 @@
 import BookmarkIcon from "@material-ui/icons/Bookmark";
-import React from "react";
+import React, {ChangeEvent, useCallback} from "react";
 import {CharactersListDomainType} from "./redux/characters-reducer";
 import './App.css';
 import {Checkbox, FormControlLabel} from "@material-ui/core";
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
 type PropsType = {
-    characters: CharactersListDomainType
+    characters: CharactersListDomainType,
+    changeCharacterFavorite: (id: number, favoriteList: boolean) => void
 }
 
 export const Character = React.memo(function (props: PropsType) {
+
+    const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        let newIsDoneValue = e.currentTarget.checked
+        props.changeCharacterFavorite(props.characters.char_id, newIsDoneValue ? true : false)
+    }, [props.characters.char_id]);
+
 
     return (
         <div className='container'>
@@ -23,7 +30,9 @@ export const Character = React.memo(function (props: PropsType) {
                 <FormControlLabel
                     control={<Checkbox icon={<BookmarkBorderIcon color={'primary'}/>}
                                        checkedIcon={<BookmarkIcon color={'secondary'}/>}
-                                       name="checkedH"/>}
+                                       name="checkedH"
+                                       onChange={onChangeHandler}
+                    />}
                     label=""
                     checked={props.characters.favoriteList}
                 />

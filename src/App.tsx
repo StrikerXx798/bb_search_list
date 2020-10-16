@@ -4,6 +4,7 @@ import {SearchBar} from "./SearchBar";
 import {Pages} from "./Pages";
 import {CharactersList} from "./CharactersList";
 import {useDispatch} from "react-redux";
+import {changeFavoriteFilter} from "./redux/characters-reducer";
 
 
 const App = React.memo( function () {
@@ -14,13 +15,19 @@ const App = React.memo( function () {
         dispatch(action)
     }, [dispatch])
 
+    const setFavoriteList = useCallback(function (favoriteList: boolean) {
+        const action = changeFavoriteFilter(favoriteList)
+        dispatch(action)
+    }, [dispatch])
 
     return (
         <div className="App">
             <SearchBar
                 searchCharacters={searchCharacters}
             />
-            <Pages/>
+            <Pages
+                setFavoriteList={setFavoriteList}
+            />
             <CharactersList/>
         </div>
     );
