@@ -12,11 +12,6 @@ export const CharactersList = React.memo(function () {
 
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        const thunk = fetchCharactersList()
-        dispatch(thunk)
-    }, [dispatch])
-
     const changeCharacterFavorite = useCallback(function (id: number, favoriteList: boolean) {
         const action = changeCharactersFavorite(id, favoriteList)
         dispatch(action)

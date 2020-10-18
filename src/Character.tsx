@@ -14,29 +14,30 @@ export const Character = React.memo(function (props: PropsType) {
 
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked
-        props.changeCharacterFavorite(props.characters.char_id, newIsDoneValue ? true : false)
-    }, [props.characters.char_id]);
+        props.changeCharacterFavorite(props.characters.char_id, newIsDoneValue)
+    }, [props]);
 
 
     return (
         <div className='container'>
-            <div className='left_side'>
-                <img src={props.characters.img} alt=""/>
-                <div>{props.characters.name}</div>
-                <div>{props.characters.portrayed}</div>
-            </div>
-            <div className='right_side'>
-                <div>{props.characters.birthday}</div>
-                <FormControlLabel
-                    control={<Checkbox icon={<BookmarkBorderIcon color={'primary'}/>}
-                                       checkedIcon={<BookmarkIcon color={'secondary'}/>}
-                                       name="checkedH"
-                                       onChange={onChangeHandler}
-                    />}
-                    label=""
-                    checked={props.characters.favoriteList}
-                />
-
+            <div className='body'>
+                <div className='left_side'>
+                    <img src={props.characters.img} alt=""/>
+                    <div>{props.characters.name}</div>
+                    <div>{props.characters.portrayed}</div>
+                </div>
+                <div className='right_side'>
+                    <div>{props.characters.birthday}</div>
+                    <FormControlLabel
+                        control={<Checkbox icon={<BookmarkBorderIcon color={'primary'}/>}
+                                           checkedIcon={<BookmarkIcon color={'secondary'}/>}
+                                           name="checkedH"
+                                           onChange={onChangeHandler}
+                        />}
+                        label=""
+                        checked={props.characters.favoriteList}
+                    />
+                </div>
             </div>
         </div>
     )

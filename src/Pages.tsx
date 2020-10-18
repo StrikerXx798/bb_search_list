@@ -1,14 +1,20 @@
 import {Button, ButtonGroup} from "@material-ui/core";
 import React, {useCallback} from "react";
+import { Redirect } from "react-router-dom";
+import {changeFavoriteFilter} from "./redux/characters-reducer";
+import {useDispatch} from "react-redux";
 
-type PropsType = {
-    setFavoriteList: (favoriteList: boolean) => void
-}
 
-export const Pages = React.memo(function (props:PropsType) {
+export const Pages = React.memo(function () {
+    const dispatch = useDispatch()
 
-    const onFavoriteClickHandler = useCallback(() => props.setFavoriteList(true), [])
-    const onAllClickHandler = useCallback(() => props.setFavoriteList(true && false), [])
+    const setFavoriteList = useCallback(function (favoriteList: boolean) {
+        const action = changeFavoriteFilter(favoriteList)
+        dispatch(action)
+    }, [dispatch])
+
+    const onFavoriteClickHandler = useCallback(() => setFavoriteList(true), [setFavoriteList])
+    const onAllClickHandler = useCallback(() => <Redirect to={"/"} />, [])
 
 
     return (

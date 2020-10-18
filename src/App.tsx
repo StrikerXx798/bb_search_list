@@ -1,34 +1,26 @@
-import React, {useCallback} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {SearchBar} from "./SearchBar";
 import {Pages} from "./Pages";
 import {CharactersList} from "./CharactersList";
 import {useDispatch} from "react-redux";
-import {changeFavoriteFilter} from "./redux/characters-reducer";
+import {fetchCharactersList} from "./redux/characters-reducer";
+import { Route } from 'react-router-dom';
 
 
 const App = React.memo( function () {
     const dispatch = useDispatch()
 
-    const searchCharacters = useCallback(function (name: string) {
-        const action = searchCharacters(name)
-        dispatch(action)
-    }, [dispatch])
-
-    const setFavoriteList = useCallback(function (favoriteList: boolean) {
-        const action = changeFavoriteFilter(favoriteList)
-        dispatch(action)
+    useEffect(() => {
+        const thunk = fetchCharactersList()
+        dispatch(thunk)
     }, [dispatch])
 
     return (
         <div className="App">
-            <SearchBar
-                searchCharacters={searchCharacters}
-            />
-            <Pages
-                setFavoriteList={setFavoriteList}
-            />
-            <CharactersList/>
+            <SearchBar/>
+            <Pages/>
+            <Route path='/' render={() => <CharactersList/>}/>
         </div>
     );
 })

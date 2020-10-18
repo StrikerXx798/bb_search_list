@@ -1,7 +1,6 @@
 import {BreakingBadAPI, CharactersType} from "../api/bb_api";
 import {Dispatch} from "redux";
 
-
 const initialState: Array<CharactersListDomainType> = []
 
 export const charactersReducer = (state: Array<CharactersListDomainType> = initialState, action: ActionsType): Array<CharactersListDomainType> => {
@@ -9,7 +8,9 @@ export const charactersReducer = (state: Array<CharactersListDomainType> = initi
         case 'GET-CHARACTERS-LIST':
             return action.characters.map(ch => ({...ch, favoriteList: false}))
         case 'SEARCH-CHARACTERS':
-            return [...state].filter(fch => fch.name.includes(action.name))
+            return [...state].filter(fch => {
+                return fch.name.toLowerCase().includes(action.name.toLowerCase())
+            })
         case 'CHANGE-CHARACTERS-FAVORITE':
             return [...state].map(ch => ch.char_id === action.id ? {...ch, favoriteList: action.favoriteList} : ch)
         case 'CHANGE-FAVORITE-FILTER':
@@ -19,14 +20,14 @@ export const charactersReducer = (state: Array<CharactersListDomainType> = initi
     }
 }
 
-// Types
+// Actions
 
 export const getCharacters = (characters: Array<CharactersType>) => ({type: 'GET-CHARACTERS-LIST', characters} as const)
 export const searchCharacters = (name: string) => ({type: 'SEARCH-CHARACTERS', name} as const)
 export const changeCharactersFavorite = (id: number, favoriteList: boolean) => ({type: 'CHANGE-CHARACTERS-FAVORITE', favoriteList, id} as const)
 export const changeFavoriteFilter = (favoriteList: boolean) => ({type: 'CHANGE-FAVORITE-FILTER', favoriteList} as const)
 
-
+// Types
 type GetCharactersActionType = ReturnType<typeof getCharacters>
 type SearchCharactersActionType = ReturnType<typeof searchCharacters>
 type ChangeCharactersFavoriteActionType = ReturnType<typeof changeCharactersFavorite>
@@ -39,7 +40,6 @@ export type CharactersListDomainType = CharactersType & {
 }
 
 // Thunk
-
 export const fetchCharactersList = () => {
     return (dispatch: ThunkDispatch) => {
         BreakingBadAPI.getCharactersList()
